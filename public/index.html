@@ -1,0 +1,208 @@
+<html>
+
+<head>
+  <title>Lista Products</title>
+  <style>
+    ul.enc li {
+      display: inline;
+    }
+
+    ul{
+      padding:0px;
+      padding-top: 20px;
+    }
+
+    li{
+      display: block;
+      padding: 5px 4px 6px 30px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      list-style: none;
+
+      /* text-align:center; */
+    }
+    li + li {
+      border-top: 1px solid #e1e3e5;
+    }
+    li:hover {
+      background-color: #f7f8f8;
+    }
+
+    .marco {
+      width: 50px;
+      height: 40px;
+      position: absolute;
+      top: 50%;
+    }
+  </style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+<div aling="Center">
+  <h2>Productos.</h2>
+</div>
+<div aling="center">
+<p>
+  <input type="button" id="submit" value="Administrador" onclick="btnAdmin()">
+</p>
+</div>
+
+  <div id='vueapp'>
+    <div aling="center">
+            <p></p>
+            <p>
+             <label>Nombre: </label>
+             <input type="text" name="txtNombre" id="txtNombre" v-model="txtNombre" size="10" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">&nbsp;&nbsp;
+             <label>Sku: </label>
+             <input type="text" name="txtSku" id="txtSku" v-model="txtSku" size="10" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">&nbsp;&nbsp;
+             <label>Precio minimo: </label>
+             <input type="text" name="txtPI" id="txtPI" v-model="txtPI" size="5" >&nbsp;&nbsp;
+             <label>Pecio maximo: </label>
+             <input type="text" name="txtPF" id="txtPF" v-model="txtPF" size="5" >&nbsp;&nbsp;
+             <input name="mail" id="mail" type="hidden"  value="">
+             <button v-on:click="Regresar()" style="FONT-FAMILY: verdana; border-radius: 8px">Regresar</button>
+             <button v-on:click="Buscar(txtNombre, txtSku, txtPI, txtPF)" style="FONT-FAMILY: verdana; border-radius: 8px">Buscar</button>
+           </p>
+   </div>
+
+
+        <div class="container">
+           <table class="table table-hover">
+              <thead bgcolor="#e9ecef">
+                 <tr>
+                   <th scope="col">Id</th>
+                   <th scope="col">Nombre</th>
+                   <th scope="col">Sku</th>
+                   <th scope="col">Cantidad</th>
+                   <th scope="col">Precio</th>
+                 </tr>
+              </thead>
+              <tbody>
+                 <tr v-for="r in regs" :key="r.Id">
+                   <th scope="row">{{r.id}}
+                   <td>{{r.name}}</td>
+                   <td>{{r.sku}}</td>
+                   <td>{{r.quantity}}</td>
+                   <td>{{r.price}}</td>
+                 </tr>
+              </tbody>
+           </table>
+        </div>
+  </div>
+  <!-- Importamos Vue.js (Siempre al final) -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-resource"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
+
+<script>
+
+
+var app = new Vue({
+el: '#vueapp',
+  data: {
+      txtNombre: '',
+      regs: []
+      },
+  methods: {
+      Regresar: function(){
+         //alert('Regresar.');
+         window.location.href = 'http://comprarmas.com.mx:3000/listproducts.html';
+      },
+
+      Buscar: function(sName, sSku, sPI, sPF){
+        let self = this;
+        var datUser = {
+            "id": "",
+            "name": sName,
+            "sku": sSku,
+            "pi": sPI,
+            "pf": sPF,
+        };
+        axios.request({
+        method: 'POST',
+        url: `http://comprarmas.com.mx:3000/product/search/`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            "id": "", "name": sName, "sku": sSku, "pi": sPI, "pf": sPF,
+        },
+        body: datUser
+
+        }).then((res)=>{
+            this.regs = JSON.parse(res.data)
+
+        }).catch((err)=>{
+            console.log("Error api call unsucessfull",err);
+        //this.props.toggleLoading(false);
+        })
+      },
+
+      Reload: function(){
+        //alert('Reload.');
+        this.reloadList();
+      },
+      reloadList: function() {
+        //console.log(result.data.data); // '{"name":"John Doe"}'
+        //console.log(result.data.headers['Content-Type']);
+        //this.regs = result.data.data
+
+        var datUser = {
+            mail: "hugobh@comprarmas.com.mx",
+            pwd: "123456",
+            opt: "seller",
+        };
+        var config = {
+            method: 'get',
+            url: 'http://comprarmas.com.mx:3000/control/lp',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: datUser,
+        };
+
+        axios.request({
+        method: 'POST',
+        url: `http://comprarmas.com.mx:3000/control/lp`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            mail: 'hugobh@comprarmas.com.mx', "pwd":"123456", opt: 'seller'
+        },
+        body: datUser
+
+        }).then((res)=>{
+            console.log("api call sucessfull ok: ", res.data);
+            this.regs = JSON.parse(res.data)
+
+        }).catch((err)=>{
+            console.log("Error api call unsucessfull",err);
+        //this.props.toggleLoading(false);
+})
+
+      },
+    },
+
+  created: function() {
+      this.reloadList();
+      }
+});
+
+//const sVal = window.location.search;
+//  const urlParams = new URLSearchParams(sVal);
+//  var sEmail = urlParams.get('email');
+//  document.getElementById("mail").value = sEmail;
+function btnAdmin () {
+    window.location.href = "http://comprarmas.com.mx:3000/login.html"
+  }
+</script>
