@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  login:
+    container_name: app-b2c
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: img-b2c
+    environment:
+      PORT: 8080
+    deploy:
+      resources:
+        limits:
+          cpus: '.5'
+          memory: 300M
+        reservations:
+          cpus: '.5'
+          memory: 300M
+    restart: always
+    expose:
+      - "8080"
+    networks:
+      - network-test
+networks:
+  network-test:
+    external: true
