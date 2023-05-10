@@ -1,0 +1,573 @@
+<html>
+
+<head>
+  <title>Lista Products</title>
+  <style>
+    ul.enc li {
+      display: inline;
+    }
+
+    ul{
+      padding:0px;
+      padding-top: 20px;
+    }
+
+    li{
+      display: block;
+      padding: 5px 4px 6px 30px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      list-style: none;
+
+      /* text-align:center; */
+    }
+    li + li {
+      border-top: 1px solid #e1e3e5;
+    }
+    li:hover {
+      background-color: #f7f8f8;
+    }
+
+    .marco {
+      width: 50px;
+      height: 40px;
+      position: absolute;
+      top: 50%;
+    }
+  </style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- MODAL-->
+<style>
+
+  html, body
+  {
+      height: 100%;
+  }
+
+  body
+  {
+      font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;
+      margin: 0;
+      background-color: #d9dee2;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#ebeef2), to(#d9dee2));
+      background-image: -webkit-linear-gradient(top, #ebeef2, #d9dee2);
+      background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2);
+      background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2);
+      background-image: -o-linear-gradient(top, #ebeef2, #d9dee2);
+      background-image: linear-gradient(top, #ebeef2, #d9dee2);
+  }
+
+  /*--------------------*/
+  #login
+  {
+      background-color: #fff;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+      background-image: -webkit-linear-gradient(top, #fff, #eee);
+      background-image: -moz-linear-gradient(top, #fff, #eee);
+      background-image: -ms-linear-gradient(top, #fff, #eee);
+      background-image: -o-linear-gradient(top, #fff, #eee);
+      background-image: linear-gradient(top, #fff, #eee);
+      height: 240px;
+      width: 400px;
+      margin: -150px 0 0 -230px;
+      padding: 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 0;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      -webkit-box-shadow:
+            0 0 2px rgba(0, 0, 0, 0.2),
+            0 1px 1px rgba(0, 0, 0, .2),
+            0 3px 0 #fff,
+            0 4px 0 rgba(0, 0, 0, .2),
+            0 6px 0 #fff,
+            0 7px 0 rgba(0, 0, 0, .2);
+      -moz-box-shadow:
+            0 0 2px rgba(0, 0, 0, 0.2),
+            1px 1px   0 rgba(0,   0,   0,   .1),
+            3px 3px   0 rgba(255, 255, 255, 1),
+            4px 4px   0 rgba(0,   0,   0,   .1),
+            6px 6px   0 rgba(255, 255, 255, 1),
+            7px 7px   0 rgba(0,   0,   0,   .1);
+      box-shadow:
+            0 0 2px rgba(0, 0, 0, 0.2),
+            0 1px 1px rgba(0, 0, 0, .2),
+            0 3px 0 #fff,
+            0 4px 0 rgba(0, 0, 0, .2),
+            0 6px 0 #fff,
+            0 7px 0 rgba(0, 0, 0, .2);
+  }
+
+  #login:before
+  {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      border: 1px dashed #ccc;
+      top: 5px;
+      bottom: 5px;
+      left: 5px;
+      right: 5px;
+      -moz-box-shadow: 0 0 0 1px #fff;
+      -webkit-box-shadow: 0 0 0 1px #fff;
+      box-shadow: 0 0 0 1px #fff;
+  }
+
+  /*--------------------*/
+  h1
+  {
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
+      text-transform: uppercase;
+      text-align: center;
+      color: #666;
+      margin: 0 0 30px 0;
+      letter-spacing: 4px;
+      font: normal 26px/1 Verdana, Helvetica;
+      position: relative;
+  }
+
+  h1:after, h1:before
+  {
+      background-color: #777;
+      content: "";
+      height: 1px;
+      position: absolute;
+      top: 15px;
+      width: 120px;
+  }
+
+  h1:after
+  {
+      background-image: -webkit-gradient(linear, left top, right top, from(#777), to(#fff));
+      background-image: -webkit-linear-gradient(left, #777, #fff);
+      background-image: -moz-linear-gradient(left, #777, #fff);
+      background-image: -ms-linear-gradient(left, #777, #fff);
+      background-image: -o-linear-gradient(left, #777, #fff);
+      background-image: linear-gradient(left, #777, #fff);
+      right: 0;
+  }
+
+  h1:before
+  {
+      background-image: -webkit-gradient(linear, right top, left top, from(#777), to(#fff));
+      background-image: -webkit-linear-gradient(right, #777, #fff);
+      background-image: -moz-linear-gradient(right, #777, #fff);
+      background-image: -ms-linear-gradient(right, #777, #fff);
+      background-image: -o-linear-gradient(right, #777, #fff);
+      background-image: linear-gradient(right, #777, #fff);
+      left: 0;
+  }
+
+  /*--------------------*/
+  fieldset
+  {
+      border: 0;
+      padding: 0;
+      margin: 0;
+  }
+
+  /*--------------------*/
+  #inputs input
+  {
+      background: #f1f1f1 url(/dist/uploads/2011/09/login-sprite.png) no-repeat;
+      padding: 15px 15px 15px 30px;
+      margin: 0 0 10px 0;
+      width: 353px; /* 353 + 2 + 45 = 400 */
+      border: 1px solid #ccc;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+      -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+      box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+  }
+
+  #username
+  {
+      background-position: 5px -2px !important;
+  }
+
+  #password
+  {
+      background-position: 5px -52px !important;
+  }
+
+  #inputs input:focus
+  {
+      background-color: #fff;
+      border-color: #ccc;
+      outline: none;
+  }
+
+  /*--------------------*/
+  #actions
+  {
+      margin: 25px 0 0 0;
+  }
+
+  #submit
+  {
+      background-color: #999;
+
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+
+      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+
+       -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+       -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+       box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+
+      border-width: 1px;
+      border-style: solid;
+      margin-left: 30px;
+
+      float: left;
+      height: 35px;
+      padding: 0;
+      width: 120px;
+      cursor: pointer;
+      font: bold 15px Arial, Helvetica;
+
+  }
+
+  #submit:hover,#submit:focus
+  {
+      background-color: #999;
+  }
+
+  #submit:active
+  {
+      outline: none;
+
+       -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+       -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+  }
+
+  #submit::-moz-focus-inner
+  {
+    border: none;
+  }
+
+  #actions a
+  {
+      color: #3151A2;
+      float: right;
+      line-height: 35px;
+      margin-left: 10px;
+  }
+
+  /*--------------------*/
+  #back
+  {
+      display: block;
+      text-align: center;
+      position: relative;
+      top: 60px;
+      color: #999;
+  }
+  /*--------------------*/
+  /*--------------------*/
+  .modalDialog {
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+  }
+  .modalDialog:target {
+    opacity:1;
+    pointer-events: auto;
+  }
+  .modalDialog > div {
+    width: 400px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+    -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  }
+  .close {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+  }
+  .close:hover { background: #00d9ff; }
+  </style>
+</head>
+
+<body>
+<div aling="Center">
+  <h2>Vendedor Lista Productos.</h2>
+</div>
+
+  <div id='vueapp'>
+    <div aling="center">
+
+     <p>
+      <input type="button" id="submit" value="Registrar" onclick="btnRegister()">
+      <input type="button" id="submit" value="Buscar" onclick="linkBuscar()">
+
+
+    </p>
+
+   </div>
+        <div class="container">
+           <table class="table table-hover">
+              <thead bgcolor="#e9ecef">
+                 <tr>
+                   <th scope="col">Id</th>
+                   <th scope="col">Nombre</th>
+                   <th scope="col">Sku</th>
+                   <th scope="col">Cantidad</th>
+                   <th scope="col">Precio</th>
+                   <th scope="col">X</th>
+                 </tr>
+              </thead>
+              <tbody>
+                 <tr v-for="r in regs" :key="r.Id">
+                   <th scope="row">{{r.id}}
+                   <td>{{r.name}}</td>
+                   <td>{{r.sku}}</td>
+                   <td>{{r.quantity}}</td>
+                   <td>{{r.price}}</td>
+                   <td><a href="#" @click="Cancel(r.id_product)">{{r.id}}</a></td>
+                 </tr>
+              </tbody>
+           </table>
+        </div>
+  </div>
+  <!-- Importamos Vue.js (Siempre al final) -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-resource"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+
+<div id="openModal" class="modalDialog">
+        <div>
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>Registrar Producto</h2>
+        <form id="frmRegister" method="post" enctype="multipart/form-data" action="http://comprarmas.com.mx:3000/regproduct/">
+            <h1>Register</h1>
+            <fieldset id="inputs">
+                <input name="name" id="name" type="text" placeholder="Nombre" autofocus required onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase();">
+                <input name="sku" id="sku" type="text" placeholder="sku" required onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase();">
+                <input name="quantity" id="quantity" type="text" placeholder="cantidad" required>
+                <input name="price" id="price" type="text" placeholder="precio" required>
+                <input name="idusr" id="idusr" type="hidden"  value="">
+
+            </fieldset>
+            <fieldset id="actions">
+                <input type="button" id="submit" value="Register" onclick="btnClickRegister()">
+            </fieldset>
+
+        </form> </div>
+</div>
+</html>
+
+<script>
+  //==================================
+  const sVal = window.location.search;
+  const urlParams = new URLSearchParams(sVal);
+  var sId = urlParams.get('id');
+  document.getElementById("idusr").value = sId;
+  var sOpt = urlParams.get('opt');
+  //document.getElementById("idusr").value = sOpt;
+  //alert("Mail:" + sEmail);
+
+var app = new Vue({
+el: '#vueapp',
+  data: {
+      txtNombre: '',
+      regs: []
+      },
+  methods: {
+      Regresar: function(){
+         //alert('Regresar.');
+         window.location.href = 'http://127.0.0.1:3000/';
+      },
+      Cancel: function(Id){
+        let self = this;
+        if(confirm('Confirmar para cancelar el registro: ' + Id)){
+           //const Id = document.querySelector("input[name=txtNombre]").value;
+            //alert('Id:'+Id);
+            axios.get('http://comprarmas.com.mx:3000/cancel/'+Id)
+           .then(function (resOK){
+             //console.log('OK:'+resOK);
+             alert('Se ha cancelado el registro');
+             //self.txtNombre = "";
+             self.reloadList();
+            }).catch((err)=>{
+              console.log("Error api call unsucessfull",err);
+              alert('No se ha cancelado el registro: ' + err.response.data.Error);
+              //err.response.data.Error
+              //this.props.toggleLoading(false);
+           })
+        }
+      },
+      Update: function(Id){
+        let self = this;
+        if(confirm('Confirmar para modificar el registro')){
+           axios.post('http://comprarmas.com.mx:3000/'+Id)
+           .then(function (resOK){
+             //console.log('OK:'+resOK);
+             alert('Se ha activado el registro');
+             self.txtNombre = "";
+             self.reloadList();
+           })
+
+           //console.log('OK:'+resOK);
+        }
+      },
+
+      Reload: function(){
+        //alert('Reload.');
+        this.reloadList();
+      },
+      reloadList: function() {
+        //console.log(result.data.data); // '{"name":"John Doe"}'
+        //console.log(result.data.headers['Content-Type']);
+        //this.regs = result.data.data
+        //var sId = document.getElementById("idusr").value;
+        //alert("Id:"+sId+" Opt:"+sOpt)
+
+        axios.request({
+        method: 'POST',
+        url: `http://comprarmas.com.mx:3000/control/lp`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            "id_usr": sId, "mail": '', "pwd":"", "opt": sOpt
+        },
+
+
+        }).then((res)=>{
+            console.log("api call sucessfull ok: ", res.data);
+            this.regs = JSON.parse(res.data)
+
+        }).catch((err)=>{
+            console.log("Error api call unsucessfull",err);
+        //this.props.toggleLoading(false);
+})
+
+      },
+    },
+
+  created: function() {
+      this.reloadList();
+      }
+});
+
+//===========================================================
+function btnClickRegister () {
+    var sName = document.getElementById("name").value;
+    var sSku = document.getElementById("sku").value;
+    var sQuantity = document.getElementById("quantity").value;
+    var sPrice = document.getElementById("price").value;
+    var sIdUsr = document.getElementById("idusr").value;
+    //var sMail = document.getElementById("mail").value;
+
+    //alert("Llego registar product...");
+    if (sName == ''){
+      alert("Por favor escriba un nombre del producto.")
+    } else if (sSku == ''){
+      alert("Por favor escriba un sku.")
+    }  else if (sQuantity == '' || sQuantity == '0'){
+      alert("Por favor escriba una cantidad valida mayor a cero.")
+    }  else if(isNaN(sQuantity)){
+        alert ('Por favor ingrese un número valido para la cantidad.');
+        //window.document.frmOrden.txtCantidad.focus();
+    }else if (sPrice == '' || sPrice == '0'){
+      alert("Por favor escriba un precio valido mayor a cero.")
+    } else if(isNaN(sPrice)){
+        alert ('Por favor ingrese un número valido para el precio.');
+        //window.document.frmOrden.txtCantidad.focus();
+    }
+
+    else{
+        //alert("Lllego ...");
+        /*var datUser = {
+            name: sName,
+            sku: sSku,
+            quantity: sQuantity,
+            price: sPrice,
+            mail: "",
+        };
+        */
+
+        axios.request({
+        method: 'POST',
+        url: `http://comprarmas.com.mx:3000/regproduct/`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            "name": sName, "sku":sSku, "quantity": sQuantity, "price": sPrice, "id_usr": sIdUsr, "mail": ""
+        },
+        //body: datUser
+
+        }).then((res)=>{
+            console.log("api call sucessfull ok: ", res.data);
+            alert("Se registro el producto correctamente");
+            var sUrl = window.location;
+            window.location.href = sUrl + "#close"
+
+        }).catch((err)=>{
+            console.log(err.response.data);
+            //let valJson = JSON.parse(err.response.data)
+            //console.log(valJson);
+            alert("Error: " + err.response.data.Error);
+            console.log(err.response.data);
+            //console.log("Error api call unsucessfull",err);
+        })
+    }
+  }
+
+  function linkBuscar () {
+    sId = document.getElementById("idusr").value
+    window.location.href = "http://comprarmas.com.mx:3000/listproductadmin.html?id="+sId
+  }
+
+  function btnRegister () {
+        window.location.href = "#openModal"
+    }
+
+</script>
